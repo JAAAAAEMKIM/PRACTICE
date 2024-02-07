@@ -1,0 +1,32 @@
+.gnb {
+  height: 48px;
+  background: black;
+  border-bottom: 1px solid white;
+  position: sticky;
+  top: 0;
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 24px;
+
+    ul {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      li {
+        list-style: none;
+      }
+    }
+  }
+}
+
+.contentArea {
+  display: flex;
+  justify-content: center;
+  main {
+    max-width: 1280px;
+  }
+}

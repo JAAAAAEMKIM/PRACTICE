@@ -1,0 +1,16 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "First post",
+      "author": "jaemin kim",
+      "content": "This is the first post. Powered by react router and json server. Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat."
+    },
+    {
+      "id": "ef39",
+      "title": "ttt",
+      "author": "aaa",
+      "content": "cccc\n"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "module": "nodenext",
+    "target": "es5",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    // "noEmit": true,
+    "moduleResolution": "nodenext",
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"]
+    }
+  },
+  "include": ["./src/**/*", "./index.d.ts"],
+  "exclude": ["./webpack.config.js"]
+}

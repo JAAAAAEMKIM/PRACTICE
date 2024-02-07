@@ -1,0 +1,44 @@
+@import "global.scss";
+
+.item {
+  position: relative;
+  cursor: move;
+  user-select: none;
+
+  border: 1px solid $border-color;
+
+  :hover {
+    border-color: $border-hover;
+  }
+  padding: 6px 12px;
+  list-style: none;
+}
+
+.indicator {
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid blue;
+  }
+}
+
+.indicatorTop {
+  composes: indicator;
+  &::before {
+    top: 0;
+  }
+}
+
+.indicatorBottom {
+  composes: indicator;
+  &::before {
+    bottom: 0;
+    border-top: 1px solid red;
+  }
+}
+
+.dragging {
+  opacity: 0.3;
+}

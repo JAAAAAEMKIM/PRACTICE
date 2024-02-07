@@ -1,0 +1,44 @@
+@import "global.scss";
+
+.button {
+  padding: 6px 12px;
+  background: $bg-default;
+  font-size: 16px;
+  border: 1px solid $border-color;
+  border-radius: 3px;
+
+  &:hover {
+    border-color: $border-hover;
+  }
+}
+
+.panel {
+  background: $bg-default;
+  border: 1px solid $border-color;
+}
+
+@mixin listItem {
+  cursor: pointer;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+}
+.item {
+  @include listItem;
+
+  &Selected {
+    @include listItem;
+    background: #debc87;
+  }
+  &:hover {
+    background: $bg-hover;
+  }
+}
+
+.label {
+  font-weight: 600;
+}
+
+.placeholder {
+  color: $placeholder;
+}

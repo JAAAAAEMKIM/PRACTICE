@@ -1,0 +1,7 @@
+.article {
+  width: 480px;
+  text-align: start;
+  white-space: pre;
+  max-height: 640px;
+  overflow: auto;
+}

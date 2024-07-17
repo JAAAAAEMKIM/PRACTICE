@@ -7,7 +7,7 @@ function sendSseMessage(
 ) {
   const payload = data
     .split("\n")
-    .map((line) => `data: ${line} \n\n`)
+    .map((line) => `data: ${line}\n\n`)
     .join("");
 
   controller.enqueue(Buffer.from(payload));
@@ -41,6 +41,7 @@ function sse(req: Request) {
 }
 
 console.log("Start bun server");
+
 Bun.serve({
   port: 8080,
   fetch(req) {
@@ -53,6 +54,7 @@ Bun.serve({
 
 const prompt = "Type prompt: ";
 process.stdout.write(prompt);
+
 for await (const line of console) {
   console.log(`You typed: ${line}`);
   eventEmitter.emit("message", line);

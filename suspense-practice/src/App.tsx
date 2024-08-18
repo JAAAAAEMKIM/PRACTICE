@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Suspense, useMemo, useState } from "react";
+import "./App.css";
+import SuspenseLoad from "./components/SuspenseLoad";
+import { ErrorBoundary } from "react-error-boundary";
+import React from "react";
+
+const ChildComponent = () => {
+  const [state, setState] = useState(0);
+  console.log("child render called!");
+  return <button onClick={() => setState(state + 1)}>클릭 {state}</button>;
+};
+
+const MemoChild = React.memo(() => {
+  console.log("child memo rendered");
+  return <div>This is Memo Child</div>;
+});
+
+const Parent = ({ children }: { children: React.ReactNode }) => {
+  console.log("parent render called!");
+  // const child = useMemo(() => <ChildComponent />, []);
+  return (
+    <div>
+      This is parent.
+      <div>
+        {/* {child} */}
+        {children}
+        <MemoChild />
+      </div>
+    </div>
+  );
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [render, setRender] = useState(1);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="card">
+      <button onClick={() => setRender((p) => p + 1)}>{render}</button>
+      <Parent>
+        <ChildComponent />
+      </Parent>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <SuspenseLoad />
+        </Suspense>
+      </ErrorBoundary>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
+          {/* <SuspenseError /> */}
+        </Suspense>
+      </ErrorBoundary>
+    </div>
+  );
 }
 
-export default App
+export default App;

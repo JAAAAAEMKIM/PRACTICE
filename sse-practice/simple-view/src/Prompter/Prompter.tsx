@@ -14,7 +14,8 @@ const Prompter = () => {
     try {
       eventSourceRef.current = new EventSource(SERVER_URL);
       eventSourceRef.current.onmessage = (ev) => {
-        setContent((prev) => `${prev}\n${ev.data}`);
+        console.log(ev.data);
+        setContent((prev) => `${prev}${ev.data || "\n"}`);
         articleRef.current?.scrollIntoView(false);
       };
 

@@ -3,14 +3,10 @@ import { EventEmitter } from "node:events";
 // https://github.com/oven-sh/bun/issues/2443
 function sendSseMessage(
   controller: Bun.ReadableStreamController<Uint8Array>,
-  data: string,
+  data: Buffer,
 ) {
-  const payload = data
-    .split("\n")
-    .map((line) => `data: ${line}\n\n`)
-    .join("");
-
-  controller.enqueue(Buffer.from(payload));
+  console.log("data to be sent: ", data, `${data}`);
+  controller.enqueue(Buffer.from(`data: ${data}\n\n`));
 }
 
 const eventEmitter = new EventEmitter();
@@ -20,11 +16,20 @@ function sse(req: Request) {
   return new Response(
     new ReadableStream({
       start(controller) {
+        let buffer = Buffer.of();
         eventEmitter.on("message", (data) => {
-          sendSseMessage(controller, data);
+          buffer = Buffer.concat([buffer, data]);
         });
+        const interval = setInterval(() => {
+          if (buffer.length) {
+            sendSseMessage(controller, buffer);
+            buffer = Buffer.of();
+          }
+        }, 200);
 
         signal.onabort = () => {
+          sendSseMessage(controller, buffer);
+          clearInterval(interval);
           controller.close();
         };
       },
@@ -55,8 +60,13 @@ Bun.serve({
 const prompt = "Type prompt: ";
 process.stdout.write(prompt);
 
-for await (const line of console) {
-  console.log(`You typed: ${line}`);
-  eventEmitter.emit("message", line);
-  process.stdout.write(prompt);
-}
+process.stdin.setRawMode(true);
+process.stdin.on("data", (key) => {
+  console.log(`You pressed: ${key}`);
+
+  // Exit on Ctrl+C or Ctrl+D
+  if (key[0] === 0x03 || key[0] === 0x04) {
+    process.exit();
+  }
+  eventEmitter.emit("message", key);
+});

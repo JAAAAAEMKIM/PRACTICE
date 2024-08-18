@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>plain</title>
+  </head>
+  <body>
+    <button id="id">click</button>
+  </body>
+  <script>
+    let a = [];
+    let i = 0;
+
+    document.querySelector("#id").addEventListener("click", () => {
+      console.log("click", a);
+      a.push(`this is a string ${i % 3}`);
+    });
+  </script>
+</html>

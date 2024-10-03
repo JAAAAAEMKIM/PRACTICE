@@ -48,7 +48,7 @@ const DndList = <T extends { key: string }>({
   const handleDragOver = useCallback(
     (e: React.DragEvent<HTMLElement>, index: number) => {
       e.preventDefault();
-      const rect = e.target.getBoundingClientRect();
+      const rect = e.currentTarget.getBoundingClientRect();
       const targetThreshold = rect.top + rect.height / 2;
 
       if (e.clientY > targetThreshold) {

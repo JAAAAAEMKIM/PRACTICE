@@ -15,7 +15,7 @@
         "format": ["cjs"],
         "bundle": false,
         "main": "server/src/main.ts",
-        "tsConfig": "server/tsconfig.app.json",
+        "tsConfig": "server/tsconfig.json",
         "assets": ["server/src/assets"],
         "generatePackageJson": true,
         "esbuildOptions": {

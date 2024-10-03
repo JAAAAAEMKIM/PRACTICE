@@ -21,12 +21,13 @@ class Batch {
 
     this.timeoutId = setTimeout(() => {
       this.flush();
-      clearTimeout(this.timeoutId);
-      this.timeoutId = undefined;
     }, this.timeout);
   }
 
   flush() {
+    clearTimeout(this.timeoutId);
+    this.timeoutId = undefined;
+    console.log(this.buffer.map(([__, args]) => args));
     while (this.buffer.length) {
       const [fn, args, resolve] = this.buffer.shift();
       const promise = fn(...args);
@@ -50,7 +51,7 @@ const mockApi = (payload: any, { returnValue }: mockOptions = {}) => {
   });
 };
 
-const batch = new Batch(3, 1000);
+const batch = new Batch(10, 100);
 
 const batchCall = <A extends Array<unknown>, Return>(
   fn: (...args: A) => Return,
@@ -62,9 +63,12 @@ const batchCall = <A extends Array<unknown>, Return>(
 };
 
 const main = async () => {
-  let count = 20;
+  let count = 300;
   for (let i = 0; i < count; i++) {
-    batchCall(mockApi, i).then(console.log);
+    const t = setTimeout(() => {
+      batchCall(mockApi, i).then(console.log);
+      clearTimeout(t);
+    }, Math.random() * 50);
   }
 };
 

@@ -1,3 +1,5 @@
+import { mockApi } from "./mockApi";
+
 class Batch {
   private buffer: Array<any> = [];
   private maxSize: number;
@@ -35,21 +37,6 @@ class Batch {
     }
   }
 }
-
-interface mockOptions {
-  returnValue?: any;
-}
-
-const mockApi = (payload: any, { returnValue }: mockOptions = {}) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(
-      () => {
-        resolve(payload);
-      },
-      10 + Math.random() * 100,
-    );
-  });
-};
 
 const batch = new Batch(10, 100);
 

@@ -1,4 +1,10 @@
-import { ComponentPropsWithRef, forwardRef } from "react";
+import {
+  ComponentPropsWithRef,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./Card.module.scss";
 import clsx from "clsx";
 
@@ -17,6 +23,16 @@ const Card: PolymorphicWithRef = forwardRef(
     ref: ComponentPropsWithRef<T>["ref"],
   ): React.ReactNode => {
     const Component = as || "div";
+
+    const [a, setA] = useState([]);
+
+    const fetch = useCallback(() => {
+      setA([]);
+    }, []);
+
+    useEffect(() => {
+      fetch();
+    }, [fetch]);
 
     const ret = (
       <Component ref={ref} className={clsx(styles.card, className)} {...props}>

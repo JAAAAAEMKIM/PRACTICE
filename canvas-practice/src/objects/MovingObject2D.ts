@@ -5,22 +5,24 @@ import Vector2D from "./Vector2D";
 class MovingObject2D {
   instance: Movable2D;
   motion: Motion2D;
+  tick: number;
 
-  constructor(movable: Movable2D, motion: Motion2D) {
+  constructor(movable: Movable2D, motion: Motion2D, tick: number) {
     this.instance = movable;
     this.motion = motion;
+    this.tick = tick;
   }
 
-  move(tick: number) {
+  move() {
     const { v, a } = this.motion;
 
     const vNew = Vector2D.add(v, a);
 
     const vX = (v.xComponent + vNew.xComponent) / 2;
-    const posX = this.instance.x + vX * tick;
+    const posX = this.instance.x + vX * this.tick;
 
     const vY = (v.yComponent + vNew.yComponent) / 2;
-    const posY = this.instance.y + vY * tick;
+    const posY = this.instance.y + vY * this.tick;
 
     this.motion.v = vNew;
 

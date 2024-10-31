@@ -37,7 +37,6 @@ class Vector2D {
       a.xComponent + b.xComponent,
       a.yComponent + b.yComponent,
     );
-    console.log(n.magnitude);
     return n;
   }
 }

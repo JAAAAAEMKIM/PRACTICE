@@ -1,14 +1,19 @@
 import { useEffect, useRef } from "react";
-import UiState from "../states/UiState";
 import { Task } from "../tasks/Task";
 
-interface Props {
-  uiState: UiState;
-  task: Task;
-  tick?: number;
+export interface Config {
+  tick: number;
+  width: number;
+  height: number;
 }
 
-const World = ({ uiState, task, tick = 16 }: Props) => {
+interface Props {
+  config: Config;
+  task: Task;
+}
+
+// Task를 browser에 그리는 역할
+const World = ({ config, task }: Props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // start workloop
@@ -18,14 +23,14 @@ const World = ({ uiState, task, tick = 16 }: Props) => {
     const interval = setInterval(() => {
       if (!ctx) return;
 
-      task.runTick(ctx, tick);
-    }, tick);
+      task.runTick(ctx, config.tick);
+    }, config.tick);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <canvas width={uiState.width} height={uiState.height} ref={canvasRef}>
+    <canvas width={config.width} height={config.height} ref={canvasRef}>
       Canvas Not Supported.
     </canvas>
   );

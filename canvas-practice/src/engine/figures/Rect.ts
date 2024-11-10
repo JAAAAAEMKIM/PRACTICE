@@ -1,5 +1,5 @@
-import Drawable from "./Drawable";
-import Movable from "./Movable2D";
+import Drawable from "../properties/Drawable";
+import Movable from "../properties/Movable2D";
 
 class Rect implements Drawable, Movable {
   x: number;
@@ -44,6 +44,10 @@ class Rect implements Drawable, Movable {
 
   changeHeight(height: number) {
     this.height = height;
+  }
+
+  static isRect(movable: Movable): movable is Rect {
+    return "width" in movable && "height" in movable;
   }
 }
 

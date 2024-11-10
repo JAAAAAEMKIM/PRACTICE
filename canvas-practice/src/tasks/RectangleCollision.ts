@@ -1,31 +1,27 @@
-import Drawable from "../objects/Drawable";
-import Rect from "../objects/Rect";
-import UiState from "../states/UiState";
+import Drawable from "../engine/properties/Drawable";
+import Rect from "../engine/figures/Rect";
 import { Task } from "./Task";
+import { Config } from "../world";
 
 class RectangleCollision implements Task {
-  uiState: UiState;
   elements: Drawable[];
   rect1: Rect;
   rect2: Rect;
+  config: Config;
 
-  constructor(uiState: UiState) {
-    this.uiState = uiState;
+  constructor(config: Config) {
     this.elements = [];
+    this.config = config;
 
     this.rect1 = new Rect(0, 0, 100, 150, "#fff");
-    this.rect2 = new Rect(uiState.width - 100, 0, 100, 150, "#999");
+    this.rect2 = new Rect(config.width - 100, 0, 100, 150, "#999");
 
     this.elements.push(this.rect1);
     this.elements.push(this.rect2);
   }
 
-  detectCollision() {
-    return true;
-  }
-
   runTick(ctx: CanvasRenderingContext2D) {
-    this.uiState.erase(ctx);
+    ctx.clearRect(0, 0, this.config.width, this.config.height);
     this.rect1.moveTo(this.rect1.x + 1, this.rect1.y);
     this.rect2.moveTo(this.rect2.x - 1, this.rect2.y);
 

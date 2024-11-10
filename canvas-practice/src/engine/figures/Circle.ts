@@ -1,5 +1,5 @@
-import Drawable from "./Drawable";
-import Movable from "./Movable2D";
+import Drawable from "../properties/Drawable";
+import Movable from "../properties/Movable2D";
 
 class Circle implements Drawable, Movable {
   x: number;
@@ -27,6 +27,8 @@ class Circle implements Drawable, Movable {
     this.x = x;
     this.y = y;
   }
+
+  getBoundary() {}
 }
 
 export default Circle;

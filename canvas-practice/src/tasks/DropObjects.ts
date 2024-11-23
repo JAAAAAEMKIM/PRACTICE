@@ -22,11 +22,12 @@ class DropSquare implements Task {
 
     const v0 = Vector2D.from(0.1, 0);
     const v02 = Vector2D.from(0.2, 0);
+    const v03 = Vector2D.from(-0.3, 0);
 
     const g = Vector2D.from(0, 0.0098);
     const rect = new Rect(200, 0, 20, 20, "#fff");
     const rect2 = new Rect(300, 0, 40, 40, "pink");
-    const circle = new Circle(0, 100, 10, "yellow");
+    const circle = new Circle(400, 100, 10, "yellow");
     const ground = new Rect(0, config.height - 20, config.width, 20, "green");
 
     const groundObject = new MovingObject2D(
@@ -49,7 +50,7 @@ class DropSquare implements Task {
     );
     const movingCircle = new MovingObject2D(
       circle,
-      new Motion2D(v0, g),
+      new Motion2D(v03, g),
       runningRate,
       3,
     );

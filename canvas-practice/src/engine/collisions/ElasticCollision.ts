@@ -1,3 +1,4 @@
+import Circle from "../figures/Circle";
 import Rect from "../figures/Rect";
 import MovingObject2D from "../MovingObject2D";
 import Vector2D from "../Vector2D";
@@ -39,7 +40,30 @@ class ElasticCollision implements Collision {
     const nv1 = this.calcSpeedAfterCollision2D(m1, v1, m2, v2);
     const nv2 = this.calcSpeedAfterCollision2D(m2, v2, m1, v1);
 
-    console.log(nv1, nv2);
+    el1.motion.v = nv1;
+    el2.motion.v = nv2;
+  }
+
+  rectToCircleCollision(el1: MovingObject2D<Rect>, el2: MovingObject2D<Circle>) {
+
+    const closestX = Math.max(el1.instance.x, Math.min(el2.instance.x, el1.instance.x + el1.instance.width));
+    const closestY = Math.max(el1.instance.y, Math.min(el2.instance.y, el1.instance.y + el1.instance.height));
+    const dx = el2.instance.x - closestX;
+    const dy = el2.instance.y - closestY;
+    const isColliding = dx * dx + dy * dy < el2.instance.radius * el2.instance.radius;
+    
+    if (el1.mass > 100) console.log(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)), isColliding)
+
+    if (!isColliding) return;
+
+    const m1 = el1.mass;
+    const v1 = el1.motion.v;
+
+    const m2 = el2.mass;
+    const v2 = el2.motion.v;
+
+    const nv1 = this.calcSpeedAfterCollision2D(m1, v1, m2, v2);
+    const nv2 = this.calcSpeedAfterCollision2D(m2, v2, m1, v1);
 
     el1.motion.v = nv1;
     el2.motion.v = nv2;
@@ -53,7 +77,13 @@ class ElasticCollision implements Collision {
       );
     }
 
-    return;
+    if (Rect.isRect(el1.instance) && Circle.isCircle(el2.instance)) {
+      return this.rectToCircleCollision(el1 as MovingObject2D<Rect>, el2 as MovingObject2D<Circle>);
+    }
+
+    if (Rect.isRect(el2.instance) && Circle.isCircle(el1.instance)) {
+      return this.rectToCircleCollision(el2 as MovingObject2D<Rect>, el1 as MovingObject2D<Circle>);
+    }
   }
 
   handleCollision(elements: MovingObject2D[]): void {

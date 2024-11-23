@@ -29,6 +29,10 @@ class Circle implements Drawable, Movable {
   }
 
   getBoundary() {}
+
+  static isCircle(movable: Movable): movable is Circle {
+    return 'radius' in movable && 'color' in movable;
+  }
 }
 
 export default Circle;
